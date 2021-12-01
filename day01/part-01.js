@@ -28,6 +28,13 @@ async function main() {
 
     const increases = countDepthIncreases(depths);
     console.log(increases);
+
+    const i2 = depths.reduce(
+        (prev, _, idx, arr) => arr[idx - 1] < arr[idx] ? prev + 1 : prev, 
+        0
+    );
+    console.log(i2);
+
 }
 
 if (require.main === module)

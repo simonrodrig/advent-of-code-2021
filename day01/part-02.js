@@ -26,7 +26,6 @@ function countWindowIncreases(depths, len=3) {
     let   increases = 0;
 
     for (let i = 1; i < depths.length - 2; i++) {
-        console.log(sum)
         const newsum = sum - depths[i-1] + depths[i+2];
 
         if (newsum > sum)
