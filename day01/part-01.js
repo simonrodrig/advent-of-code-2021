@@ -6,19 +6,8 @@ const rl = require('readline').createInterface({
     terminal: false
 });
 
-function countDepthIncreases(depths) {
-
-    let numIncreases = 0;
-    while (depths.length) {
-        const e = depths.pop();
-
-        if (e > depths[depths.length-1])
-            numIncreases++;
-    } 
-
-    return numIncreases;
-
-}
+const countDepthIncreases = (depths) => 
+    depths.reduce((prev, _, idx, arr) => arr[idx - 1] < arr[idx] ? prev + 1 : prev, 0);
 
 async function main() {
 
@@ -28,13 +17,6 @@ async function main() {
 
     const increases = countDepthIncreases(depths);
     console.log(increases);
-
-    const i2 = depths.reduce(
-        (prev, _, idx, arr) => arr[idx - 1] < arr[idx] ? prev + 1 : prev, 
-        0
-    );
-    console.log(i2);
-
 }
 
 if (require.main === module)
