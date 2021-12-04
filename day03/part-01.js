@@ -15,40 +15,34 @@ const rl = require('readline').createInterface({
 
 /* Functions */
 function findMostCommonBit(bits) {
-    return bits.reduce((a,b) => a+b) > Math.floor(bits.length/2) ? 1 : 0;
+    let count = 0;
+    bits.forEach(bit => bit == '1' ? count++ : count)
+    return count >= bits.length/2 ? '1': '0';
+}
+
+function flipBits(bits) {
+    return bits.map(bit => bit == '1' ? '0' : '1').join('')
 }
 
 /* Main Execution */
 async function main() {
 
     const nums = [];
-    let len;
     for await (const line of rl) {
-        len = line.split('').length;
-        nums.push(parseInt(line, 2));
-    }
-    console.log(len);
-
-    let mask = 1;
-    const final = [];
-    const final2 = [];
-    for (let offset = 0; offset < len; offset++) {
-        
-        const bits = [];
-        for (const num of nums) {
-            const bit = (num & (mask << offset)) >>> offset;
-            bits.push(bit);
-        }
-
-        const common = findMostCommonBit(bits);
-        final.push(common);
-        final2.push(common ? 0 : 1)
+        nums.push(line)
     }
 
-    const gamma = parseInt(final.reverse().join(''), 2)
-    const eps = parseInt(final2.reverse().join(''), 2)
-    console.log(gamma, eps, gamma * eps);
-    
+    const len = nums[0].length;
+    let gamma = '';
+
+    for (let bit = 0; bit < len; bit++) {
+        const bits = nums.map(num => num[bit]);
+        gamma += findMostCommonBit(bits);
+    }
+
+    const epsilon = flipBits(gamma.split(''));
+    const tot = parseInt(gamma, 2) * parseInt(epsilon, 2);
+    console.log(gamma, epsilon, tot);
 }
 
 if (require.main === module)
